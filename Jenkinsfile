@@ -24,11 +24,11 @@ pipeline {
     stages {
 	    stage('Checkout') {
     	    steps {
-    	    sh "mvn --version" //shellscript
-    	    //sh "node --version"
-    	    sh "docker version"
+    	        sh "mvn --version" //shell script
+    	        //sh "node --version"
+    	        sh "docker version"
               echo "Build"
-              echo "$PATH - $PATH"
+              echo "PATH - $PATH"
               echo "BUILD_NUMBER - $env.BUILD_NUMBER"
               echo "JOB_NAME - $env.JOB_NAME"
               echo "BUILD_TAG - $env.BUILD_TAG"
@@ -40,7 +40,7 @@ pipeline {
     	        sh "mvn clean compile"
          	}
     	}
-  	    stage('Test') {
+  	    stage('Unit Test') {
       	    steps {
                 sh "mvn test"
       	    }
