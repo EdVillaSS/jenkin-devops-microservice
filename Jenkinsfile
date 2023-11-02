@@ -33,10 +33,14 @@ pipeline {
     }
 
     post {
-        echo "Always running."
-    } success {
-        echo "Only when success."
-    } failure {
-        echo "Only when failed."
+        always {
+            echo "Always running."
+        }
+        success {
+             echo "Only when success."
+        }
+        failure {
+            echo "Only when failed."
+        }
     }
 }
