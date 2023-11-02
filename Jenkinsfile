@@ -36,7 +36,7 @@ pipeline {
     	    }
     	}
     	stage('Compile') {
-    	    steps{
+    	    steps {
     	        sh "mvn clean compile"
          	}
     	}
@@ -49,6 +49,29 @@ pipeline {
     	    steps {
                 sh "mvn failsafe:integration-test failsafe:verify"
     	    }
+        }
+        stage('Package'){
+            steps{
+                sh "mvn package-DskipTests"
+            }
+        }
+        stage('Build Docker Image') {
+            steps{
+                // "docker build -t edvillass/currency-exchange-devops:$env.BUILD_TAG" //primitive way
+                script {
+                    dockerImage = docker.build("edvillass/currency-exchange-devops:${env.BUILD_TAG}")
+                }
+            }
+        }
+        stage('Push Docker Image') {
+             steps{
+                script {
+                docker.withRegistry('','dockerhub') {
+                    dockerImage.push();
+                    dockerImage.push('latest');
+                    }
+                }
+            }
         }
     }
 
